@@ -1,0 +1,10 @@
+.Button {
+  background: none;
+  font-size: 30px;
+  color: #fff;
+  border: none;
+  margin: 15px;
+  &:hover {
+    cursor: pointer;
+  }
+}

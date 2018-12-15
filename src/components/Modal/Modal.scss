@@ -1,0 +1,26 @@
+.modal {
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  height: inherit;
+  border-left: 2px solid #FFF;
+  box-shadow: -3px 0 10px 0 #FFF;
+  position: fixed;
+  top:0;
+  right: 0;
+  width: 300px;
+  background: #FF5A54;
+  color: #FFF;
+  font-size: 30px;
+  text-shadow: 0 0 5px #FFF;
+  display: flex;
+  transition: all 0.5s ease-in;
+}
+
+.Open {
+  transform: translateX(0);
+}
+
+.Close {
+  transform: translateX(100%);
+}

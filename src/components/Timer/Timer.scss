@@ -1,0 +1,28 @@
+.Timer-Wrapper {
+  border-radius: 50%;
+  border: 3px solid #FFF;
+  padding: 50px;
+  margin: 25px 0;
+  box-shadow: 
+    0 0 50px  #FFF,
+    inset 0 0 20px #FFF;
+  background: #FF5A54;
+}
+
+.Timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  color: #FFF;
+  text-shadow: 0 0 5px #FFF;
+  font-size: 4rem;
+  height: 50vh;
+  width: 50vh;
+  border-radius: 50%;
+  border: 3px solid #FFF;
+  background:  #FF312A;
+  box-shadow: 
+    inset 0 0 30px #FFF,
+    0 0 30px #FFF;
+}
