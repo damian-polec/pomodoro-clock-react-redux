@@ -1,0 +1,9 @@
+export const SHOW_MODAL_BUTTON = 'SHOW_MODAL_BUTTON';
+export const RESET_BUTTON = 'RESET_BUTTON';
+export const DECREMENT_BUTTON = 'DECREMENT_BUTTON';
+export const INCREMENT_BUTTON = 'INCREMENT_BUTTON';
+export const START_BUTTON = 'START_BUTTON';
+export const STOP_BUTTON = 'STOP_BUTTON';
+export const TIMER_COUNTDOWN ='TIMER_COUNTDOWN';
+
+export const TEST='TEST';

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlayCircle, faPauseCircle, faArrowAltCircleUp, faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons';
 import { faRedo } from '@fortawesome/free-solid-svg-icons';
@@ -6,35 +8,40 @@ import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import Timer from './components/Timer/Timer';
 import Modal from './components/Modal/Modal';
 import BurgerIcon from './components/UI/BurgerIcon/BurgerIcon';
-import { timerCounter, numTransform } from './helpers/helpers';
+//import { timerCounter, numTransform } from './helpers/helpers';
+import * as actionCreators from './store/actions/actions';
 import './App.scss';
 
 library.add(faPlayCircle, faPauseCircle, faRedo, faArrowAltCircleUp, faArrowAltCircleDown);
 
 class App extends Component {
-  constructor(props){
+/*constructor(props){
     super(props);
     this.state = {
-      session: '25',
-      break: '5',
-      sessionTimer: '25:00',
-      breakTimer: '05:00',
-      isSessionInitialized: true,
-      isPlaying: false,
-      isModalVissible: false,
       intervalId: ''
     }
-    this.showModal = this.showModal.bind(this);
-    this.onResetHandler = this.onResetHandler.bind(this);
-    this.onDecrementHandler = this.onDecrementHandler.bind(this);
-    this.onIncrementHandler = this.onIncrementHandler.bind(this);
-    this.onStartHandler = this.onStartHandler.bind(this);
-    this.onStopHandler = this.onStopHandler.bind(this);
-    this.timerCountDown = this.timerCountDown.bind(this);
+    //this.showModal = this.showModal.bind(this);
+    //this.onResetHandler = this.onResetHandler.bind(this);
+    //this.onDecrementHandler = this.onDecrementHandler.bind(this);
+    //this.onIncrementHandler = this.onIncrementHandler.bind(this);
+    //this.onStartHandler = this.onStartHandler.bind(this);
+    //this.onStopHandler = this.onStopHandler.bind(this);
+    //this.timerCountDown = this.timerCountDown.bind(this);
+  }
+*/
+  componentDidMount() {
+    this.intervalId = setInterval(() => {
+      if (this.props.isPlaying){
+         this.props.onTimerCountDown()
+        }
+    }, 1000) 
   }
 
+    componentWillUnmount() {
+      clearInterval(this.intervalId);
+    }
 
-
+/*
   timerCountDown () {
     const time = document.querySelector('#time-left').innerHTML;
     const audio = document.querySelector('#beep');
@@ -52,13 +59,16 @@ class App extends Component {
       this.setState({breakTimer: transformedTime})
     }
   }
-
+*/
+/*
   showModal () {
     this.setState({ 
       isModalVissible: !this.state.isModalVissible,
     });
   }
+*/
 
+/*
   onResetHandler () {
     const audio = document.querySelector('#beep');
     audio.pause();
@@ -73,7 +83,8 @@ class App extends Component {
       intervalId: clearInterval(this.state.intervalId)
     })
   }
-
+*/
+/*
   onDecrementHandler (event) {
     const button = event.target.closest('button').getAttribute('id');
     
@@ -90,8 +101,8 @@ class App extends Component {
             isSessionInitialized: true
           });
   }
-
-  onIncrementHandler(event) {
+*/
+/*  onIncrementHandler(event) {
     const button = event.target.closest('button').getAttribute('id');
     
     button === 'session-increment' 
@@ -107,48 +118,69 @@ class App extends Component {
             isSessionInitialized: true
       });
   }
-
-  onStartHandler() {
+*/
+  /*onStartHandler() {
     this.setState({
       isPlaying: !this.state.isPlaying,
       intervalId: setInterval(this.timerCountDown, 1000)
     });
-    
-    //const time = document.querySelector('#time-left').innerHTML;
-    //const interval = setInterval(timerCounter(time))
-    //this.setState({intervalId: interval});
-  }
+  }*/
 
-  onStopHandler() {
+  /*onStopHandler() {
     this.setState({
       isPlaying: !this.state.isPlaying,
       intervalId: clearInterval(this.state.intervalId)
     });
-  }
+  }*/
 
   render() {
     return (
       <div className="App">
-        <BurgerIcon click={this.showModal}/>
+        <BurgerIcon click={this.props.onShowModal}/>
         <Timer 
           label='timer-label'
-          sessionTime={this.state.session}
-          reset={this.onResetHandler}
-          start={this.onStartHandler}
-          stop={this.onStopHandler}
-          sessionTimer={this.state.sessionTimer}
-          breakTimer={this.state.breakTimer}
-          isSessionInitialized={this.state.isSessionInitialized}
-          isPlaying={this.state.isPlaying}/>
+          sessionTime={this.props.session}
+          reset={this.props.onResetHandler}
+          start={this.props.onStartHandler}
+          stop={this.props.onStopHandler}
+          sessionTimer={this.props.sessionTimer}
+          breakTimer={this.props.breakTimer}
+          isSessionInitialized={this.props.isSessionInitialized}
+          isPlaying={this.props.isPlaying}/>
         <Modal 
-          sessionTime={this.state.session}
-          breakTime={this.state.break}
-          show={this.state.isModalVissible}
-          decrementHandler={this.onDecrementHandler}
-          incrementHandler={this.onIncrementHandler}/>
+          sessionTime={this.props.session}
+          breakTime={this.props.break}
+          show={this.props.isModalVissible}
+          decrementHandler={this.props.onDecrementHandler}
+          incrementHandler={this.props.onIncrementHandler}/>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isModalVissible: state.isModalVissible,
+    session: state.session,
+    break: state.break,
+    sessionTimer: state.sessionTimer,
+    breakTimer: state.breakTimer,
+    isPlaying: state.isPlaying,
+    isSessionInitialized: state.isSessionInitialized,
+    intervalId: state.intervalId
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onShowModal: () => dispatch(actionCreators.SHOW_MODAL()),
+    onResetHandler: () => dispatch(actionCreators.RESET_TIMER()),
+    onStartHandler: () => dispatch(actionCreators.START_TIMER()),
+    onStopHandler: () => dispatch(actionCreators.STOP_TIMER()),
+    onIncrementHandler: (event) => dispatch(actionCreators.INCREMENT_TIMER(event)),
+    onDecrementHandler: (event) => dispatch(actionCreators.DECREMENT_TIMER(event)), 
+    onTimerCountDown: () => dispatch(actionCreators.TIMER_COUNTDOWN())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
